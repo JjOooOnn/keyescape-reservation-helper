@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Generated output
+artifacts/
+build/
+dist/
+coverage/
+test-results/
+
+# Local secrets and environment settings
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+*.local
+
+# Browser profile and authentication data
+**/Cookies
+**/Cookies-journal
+**/Login Data
+**/Login Data-journal
+**/Local State
+**/Web Data
+**/History
+**/History-journal
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+
+# Local databases, logs, and temporary files
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+*.tmp
+*.temp
+.cache/
+
+# IDE settings
+.idea/
+.vscode/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

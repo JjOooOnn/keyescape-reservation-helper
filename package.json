@@ -1,0 +1,18 @@
+{
+  "name": "keyescape-macro",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "키이스케이프 예약 도우미 — 4단계 예약 실행",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test --test-isolation=none test/keyescape-site.test.js test/run-state.test.js && node --test --test-isolation=none test/popup-ui.test.js && node --test --test-isolation=none test/runner-banner.test.js && node --experimental-vm-modules --test --test-isolation=none test/extension-startup.test.js",
+    "check": "node --check src/keyescape-site.js && node --check extension/settings.js && node --check extension/background.js && node --check extension/content-script.js && node --check extension/runner.js && node --check extension/popup.js && node --check scripts/check-snapshots.mjs",
+    "check:snapshots": "node scripts/check-snapshots.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "30.0.1"
+  }
+}

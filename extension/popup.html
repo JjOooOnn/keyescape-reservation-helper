@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>키이스케이프 예약 도우미</title>
+<link rel="stylesheet" href="popup.css">
+<body>
+<div class="app">
+  <header class="app-header">
+    <div class="brand"><small>KEYESCAPE</small><strong>예약 도우미</strong></div>
+    <span id="header-status" class="status-pill">설정 중</span>
+  </header>
+
+  <main id="dashboard" class="app-body">
+    <section class="hero" aria-label="현재 실행 상태">
+      <div class="hero-top"><span class="eyebrow">현재 상태</span><span id="hero-status" class="status-pill">설정 중</span></div>
+      <h1 id="run-state">설정 중</h1>
+      <p id="run-description">설정을 확인하고 저장한 뒤 예약 대기를 시작하세요.</p>
+      <div id="countdown-block" hidden><strong id="countdown" aria-label="예약 오픈까지 남은 시간"></strong><span id="countdown-caption">예약 오픈까지</span></div>
+    </section>
+    <section id="action-notice" class="action-notice" hidden aria-live="polite"></section>
+    <section class="card" aria-labelledby="summary-title">
+      <div class="card-head"><h2 id="summary-title">예약 요약</h2><button id="edit" class="button ghost" type="button">편집</button></div>
+      <dl id="summary" class="summary"></dl>
+    </section>
+    <section class="card" aria-labelledby="progress-title"><h2 id="progress-title">진행 현황</h2><div id="progress" class="progress" aria-label="예약 진행 상태"></div></section>
+    <details id="previous-run" class="diagnostics" hidden><summary id="previous-run-label">이전 실행</summary><p id="previous-run-description" class="progress-note"></p></details>
+    <details class="diagnostics"><summary>도구 · 페이지 진단</summary>
+      <label for="target">검사할 테마</label><select id="target"></select>
+      <button id="inspect" class="button secondary" type="button">현재 페이지 확인</button><pre id="result"></pre>
+    </details>
+  </main>
+
+  <main id="editor" class="app-body editor" hidden>
+    <p class="eyebrow">설정 편집</p><p class="editor-intro">예약 대상과 일정을 확인한 뒤 설정을 저장하세요.</p>
+    <form id="settings-form" novalidate>
+      <section class="card" aria-labelledby="visit-title"><h2 id="visit-title">방문 일정</h2>
+        <label for="visitDate">방문 날짜</label><input id="visitDate" name="visitDate" type="date" required>
+        <label for="candidate-new">희망 시간 <span class="label-note">24시간제 · 앞쪽이 우선</span></label>
+        <div id="candidate-list" class="time-list" aria-label="희망 시간 우선순위"></div><input name="candidateTimes" type="hidden">
+        <div class="time-add"><input id="candidate-new" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="예: 18:30 또는 1830" aria-describedby="candidate-hint"><button id="candidate-add" class="button secondary" type="button">시간 추가</button></div>
+        <small id="candidate-hint">최대 8개 · Enter로 추가</small>
+      </section>
+      <section class="card" aria-labelledby="opening-title"><h2 id="opening-title">예약 오픈</h2>
+        <label for="openingDate">예약 오픈 날짜</label><input id="openingDate" name="openingDate" type="date" required>
+        <label for="openingTime">오픈 시각 <span class="label-note">24시간제 · 시:분:초</span></label>
+        <input id="openingTime" name="openingTime" class="time-input" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="예: 18:30:00 또는 183000" required aria-describedby="opening-hint">
+        <small id="opening-hint">초를 생략하면 00초 · 이 브라우저의 현지 시간 기준</small>
+      </section>
+      <section class="card" aria-labelledby="target-title"><h2 id="target-title">예약 대상</h2>
+        <label for="themeName">테마명</label><input id="themeName" name="themeName" maxlength="60" required>
+        <div class="field-grid"><div><label for="branchId">지점 ID</label><input id="branchId" name="branchId" inputmode="numeric" required></div><div><label for="themeId">테마 ID</label><input id="themeId" name="themeId" inputmode="numeric" required></div></div>
+        <label for="themeInfoId">테마 정보 ID</label><input id="themeInfoId" name="themeInfoId" inputmode="numeric" required><small>예약 페이지에서 확인한 ID를 입력하세요.</small>
+      </section>
+      <section class="card" aria-labelledby="person-title"><h2 id="person-title">예약자 정보</h2>
+        <label for="personCount">인원</label><select id="personCount" name="personCount"><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option></select>
+        <label for="name">예약자 이름</label><input id="name" name="name" autocomplete="name" maxlength="30" required>
+        <label for="phone">휴대전화</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" required>
+        <small>이름과 전화번호는 이 Chrome 프로필의 로컬 저장소에 저장됩니다.</small>
+      </section>
+    </form>
+  </main>
+
+  <footer class="app-footer">
+    <p id="status" role="status" aria-live="polite"></p><p id="save-state" class="save-state"></p>
+    <div id="dashboard-actions" class="actions">
+      <button id="start" class="button primary" type="button">저장하고 대기 시작</button>
+      <button id="stop" class="button danger" type="button" hidden>중지</button>
+      <button id="focus-tab" class="button secondary" type="button" hidden>예약 탭 열기</button>
+      <button id="new-run" class="button secondary" type="button" hidden>새 예약 설정</button>
+    </div>
+    <div id="editor-actions" class="actions" hidden>
+      <button id="edit-close" class="button secondary" type="button">요약으로</button>
+      <button id="save" class="button primary" type="submit" form="settings-form">설정 저장</button>
+    </div>
+  </footer>
+</div>
+<script type="module" src="popup.js"></script>
+</body>
+</html>

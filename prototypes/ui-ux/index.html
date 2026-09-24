@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>키이스케이프 · UI 비교</title>
+<link rel="stylesheet" href="styles.css">
+<body>
+  <header class="lab-header">
+    <div>
+      <p class="eyebrow">KEYESCAPE · DESIGN STUDY</p>
+      <h1>예약 도우미 UI 비교</h1>
+      <p class="lab-intro">동일한 예약 흐름을 세 가지 정보 구조로 비교합니다. 모든 조작은 화면 안에서만 재현됩니다.</p>
+    </div>
+    <span class="mock-badge">MOCK · 실제 예약 없음</span>
+  </header>
+
+  <section class="lab-controls" aria-label="비교 설정">
+    <div class="control-field">
+      <label for="scenario">상태 시나리오</label>
+      <select id="scenario">
+        <option value="idle">설정 입력</option>
+      </select>
+    </div>
+    <div class="control-field">
+      <label for="width">팝업 너비</label>
+      <select id="width">
+        <option value="390">390px · 기본</option>
+        <option value="360">360px</option>
+        <option value="420">420px</option>
+      </select>
+    </div>
+    <button class="lab-reset" id="reset" type="button">처음부터 보기</button>
+    <p class="lab-hint">화면별 입력·저장·대기·중지를 조작하거나 시나리오를 선택해 같은 상태를 나란히 비교하세요.</p>
+  </section>
+
+  <main class="comparison" id="comparison">
+    <section class="concept" data-concept="a" aria-label="A안 Compact Utility">
+      <header class="concept-heading"><span class="concept-letter">A</span><div><h2>Compact Utility</h2><p>자주 쓰는 사람을 위한 빠른 조작</p></div></header>
+      <div class="phone" id="phone-a"><div class="phone-content" id="screen-a"></div></div>
+      <div class="site-preview" id="site-a"></div>
+    </section>
+    <section class="concept" data-concept="b" aria-label="B안 단계 중심">
+      <header class="concept-heading"><span class="concept-letter">B</span><div><h2>Guided Steps</h2><p>처음부터 완료까지 순서대로 안내</p></div></header>
+      <div class="phone" id="phone-b"><div class="phone-content" id="screen-b"></div></div>
+      <div class="site-preview" id="site-b"></div>
+    </section>
+    <section class="concept" data-concept="c" aria-label="C안 상태 대시보드">
+      <header class="concept-heading"><span class="concept-letter">C</span><div><h2>Status Dashboard</h2><p>현재 상태와 다음 행동을 한눈에</p></div></header>
+      <div class="phone" id="phone-c"><div class="phone-content" id="screen-c"></div></div>
+      <div class="site-preview" id="site-c"></div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
